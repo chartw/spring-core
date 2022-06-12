@@ -11,6 +11,7 @@ package twcha.core;
 
 import twcha.core.discount.DiscountPolicy;
 import twcha.core.discount.FixDiscountPolicy;
+import twcha.core.discount.RateDiscountPolicy;
 import twcha.core.member.MemberRepository;
 import twcha.core.member.MemberService;
 import twcha.core.member.MemberServiceImpl;
@@ -37,6 +38,8 @@ public class AppConfig {
     }
 
     private DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+//        새로운 할인 정책을 적용하기 위해서는, 구체 클래스만 변경해주면 된다.
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
