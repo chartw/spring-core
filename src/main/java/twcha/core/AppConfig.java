@@ -9,7 +9,9 @@
  */
 package twcha.core;
 
+import twcha.core.discount.DiscountPolicy;
 import twcha.core.discount.FixDiscountPolicy;
+import twcha.core.member.MemberRepository;
 import twcha.core.member.MemberService;
 import twcha.core.member.MemberServiceImpl;
 import twcha.core.member.MemoryMemberRepository;
@@ -17,12 +19,24 @@ import twcha.core.order.OrderService;
 import twcha.core.order.OrderServiceImpl;
 
 public class AppConfig {
+//    역할과 역할에 대한 구현체가 명시되도록 리팩터링 
+//    -> 역할과 구현 클래스가 한눈에 들어옴 -> 
+//    애플리케이션 전체 구성 빠르게 파악 가능
+//    new MemoryMemberRepository() 중복 제거
 
     public MemberService memberService() {
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
+    }
+    
+    private MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
     }
 
     public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    private DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
     }
 }
