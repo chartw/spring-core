@@ -9,8 +9,10 @@
  */
 package twcha.core;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import twcha.core.discount.DiscountPolicy;
-import twcha.core.discount.FixDiscountPolicy;
+//import twcha.core.discount.FixDiscountPolicy;
 import twcha.core.discount.RateDiscountPolicy;
 import twcha.core.member.MemberRepository;
 import twcha.core.member.MemberService;
@@ -19,25 +21,32 @@ import twcha.core.member.MemoryMemberRepository;
 import twcha.core.order.OrderService;
 import twcha.core.order.OrderServiceImpl;
 
+// Application의 구성정보를 저장하는 파일에 어노테이션 적용
+@Configuration
 public class AppConfig {
 //    역할과 역할에 대한 구현체가 명시되도록 리팩터링 
 //    -> 역할과 구현 클래스가 한눈에 들어옴 -> 
 //    애플리케이션 전체 구성 빠르게 파악 가능
 //    new MemoryMemberRepository() 중복 제거
 
+    // @Bean 어노테이션 적용시 스프링 컨테이너에 등록됨
+    @Bean
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
-    
-    private MemberRepository memberRepository() {
+
+    @Bean
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
+    @Bean
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
-    private DiscountPolicy discountPolicy() {
+    @Bean
+    public DiscountPolicy discountPolicy() {
 //        새로운 할인 정책을 적용하기 위해서는, 구체 클래스만 변경해주면 된다.
 //        return new FixDiscountPolicy();
         return new RateDiscountPolicy();
