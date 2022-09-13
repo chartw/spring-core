@@ -1,8 +1,10 @@
 package twcha.core.discount;
 
+import org.springframework.stereotype.Component;
 import twcha.core.member.Grade;
 import twcha.core.member.Member;
 
+@Component
 public class RateDiscountPolicy implements DiscountPolicy{
 
     private int discountPercent = 10;
