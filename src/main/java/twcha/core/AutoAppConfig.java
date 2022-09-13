@@ -4,6 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
+
 @Configuration
 @ComponentScan(
         //base 지정안했을때 Default: @ComponentScan 이 붙은 설정 정보 클래스의 패키지가 시작 위치
@@ -17,4 +18,11 @@ import org.springframework.context.annotation.FilterType;
 )
 public class AutoAppConfig {
 
+    // 수동 빈 등록으로 인해 충돌 발생
+    // 스프링 자체에선 수동 빈이 오버라이딩 되어 오류 발생 x
+    // 스프링 부트에선 오류로 처리
+//    @Bean(name = "memoryMemberRepository")
+//    MemberRepository memberRepository() {
+//        return new MemoryMemberRepository();
+//    }
 }
